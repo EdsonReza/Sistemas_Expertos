@@ -1,6 +1,8 @@
+from Jarra import Jarra
+
 # Busq en amplitud primero
 class BreadthFirstSearch:
-    def __init__(self, problem):
+    def __init__(self, problem: Jarra):
         self.open = []
         self.close = []
         self.children = []
@@ -11,7 +13,7 @@ class BreadthFirstSearch:
         solution = []
         while self.open:
             actual = self.open.pop(0)
-            print( ", Nodo: " + str(self.problem.number) + ", " + str(actual))
+            print( "Nodo: " + str(self.problem.number) + ", " + str(actual))
             if (actual in self.problem.goal):
                 while actual:
                     action = actual.action

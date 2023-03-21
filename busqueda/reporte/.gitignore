@@ -1,0 +1,5 @@
+reporte.*
+plot.py
+!reporte.tex
+!reporte.pdf
+!figures/

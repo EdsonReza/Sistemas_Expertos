@@ -1,8 +1,10 @@
 from Problem import Problem
 from Node import Node
 class Jarra(Problem):
-  def __init__(self, initial:Node, goals:list):
+  def __init__(self, initial:Node, goals:list, min:int, max:int):
       super().__init__(initial, goals) 
+      self.min = min
+      self.max = max
   
   number: int = 0
 
@@ -44,44 +46,44 @@ class Jarra(Problem):
   def la(self, node: Node):
     state = node.state 
     if state[0] != 4:
-      newState = (4, state[1])
-      return Node(newState, node, 'Llenar jarra de 4L')
+      newState = (self.max, state[1])
+      return Node(newState, node, 'Llenar jarra de {0}L'.format(self.max))
     return None 
   
   def lb(self, node: Node):
     state = node.state 
     if state[1] != 3: 
-      newState = (state[0], 3) 
-      return Node(newState, node, 'Llenar jarra de 3L')
+      newState = (state[0], self.min) 
+      return Node(newState, node, 'Llenar jarra de {0}L'.format(self.min))
     return None
 
   def va(self, node: Node): 
     state = node.state 
     if state[0] != 0: 
       newState = (0, state[1]) 
-      return Node(newState, node, 'Vaciar jarra de 4L')
+      return Node(newState, node, 'Vaciar jarra de {0}L'.format(self.max))
     return None 
     
   def vb(self, node: Node): 
     state = node.state 
     if state[1] != 0: 
       newState = (state[0], 0) 
-      return Node(newState, node, 'Vaciar jarra de 3L')
+      return Node(newState, node, 'Vaciar jarra de {0}L'.format(self.min))
     return None 
 
   def ab(self, node: Node): 
     state = node.state 
-    if state[0] > 0 and state[1] <= 3: 
-      add = 3 - state[1]
+    if state[0] > 0 and state[1] <= self.min: 
+      add = self.min - state[1]
       newState = (0, state[1] + state[0]) if add >= state[0] else  (state[0]-add, state[1]+add)
-      return Node(newState, node, 'Vaciar jarra de 4L en jarra de 3L')
+      return Node(newState, node, 'Vaciar jarra de {0}L en jarra de {1}L'.format(self.max, self.min))
     return None 
     
   def ba(self, node: Node): 
     state = node.state 
-    if state[1] > 0 and state[0] <= 4: 
-      add = 4 - state[0]
+    if state[1] > 0 and state[0] <= self.max: 
+      add = self.max - state[0]
       newState = (state[0] + state[1], 0) if add >= state[1] else (state[0] + add, state[1] - add ) 
-      return Node(newState, node, 'Vaciar jarra de 3L en jarra de 4L')
+      return Node(newState, node, 'Vaciar jarra de {0}L en jarra de {1}L'.format(self.min, self.max))
     return None 
     

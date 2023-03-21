@@ -70,6 +70,13 @@ En este trabajo, usaremos algunos algorimos de búsqueda para resolver el proble
 \section{Trabajos relacionados}
 
 \section{Enfoque}
+Formulamos el problema de las jarras como un árbol de búsqueda, donde cada nodo representa un estado, y cada arista representa una operación. Como muchos de este tipo de problemas, varias veces una operación puede llevar a un estado que ya se ha visitado, por lo que se debe de tener cuidado de no repetir estados.
+Para lograr eso ultimo, existirá una lista de estados visitados, y cada vez que se visite un estado, se revisará si ya se ha visitado, en caso de que ya se haya visitado, se ignorará el estado, evitando así desarrollos infinitos.
+
+Para cada nodo se podrán desarrollar hasta 6 hijos, uno para cada operación, a consideración de que la operación sea posible de realizar. Por ejemplo, si la jarra de $x$ litros está llena, no se podrá realizar la operación de llenar la jarra de $x$ litros, ya que la jarra ya está llena. Por otro lado, si la jarra de $y$ litros está vacía, no se podrá realizar la operación de vaciar la jarra de $y$ litros, ya que la jarra ya está vacía. Para estos casos, se ignorará la operación, y se desarrollará el siguiente hijo.
+Y siempre teniendo en consideración que el estado final deseado puede no ser alcanzable.
+
+
 
 \section{Experimentos}
 

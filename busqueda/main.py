@@ -5,8 +5,11 @@ from Jarra import Jarra
 def main():
     # Estado inicial
     inicial = Node((0, 0))
+    # Posibles estados finales
     final = [Node((2, 0)), Node((2, 1)), Node((2, 2)), Node((2, 3))]
-    jarra = Jarra(inicial, final)
+
+    # Crear el problema, con el estado inicial y el final, y las capacidades de las jarras
+    jarra = Jarra(inicial, final, 3, 4)
 
     bfs = BreadthFirstSearch(jarra)
     solution_bfs = bfs.run()

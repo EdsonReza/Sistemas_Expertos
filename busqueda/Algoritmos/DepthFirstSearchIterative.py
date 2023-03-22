@@ -23,7 +23,7 @@ class DepthFirstSearchIterative:
         while self.open:
             actual = self.open.pop()
             print( "Nodo: " + str(self.problem.number) + ", " + str(actual))
-            if (actual in self.problem.goal):
+            if (actual == self.problem.goal):
                 solution = []
                 while actual:
                     action = actual.action

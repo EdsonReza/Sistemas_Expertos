@@ -1,8 +1,8 @@
 from Problem import Problem
 from Node import Node
 class Jarra(Problem):
-  def __init__(self, initial:Node, goals:list, min:int, max:int):
-      super().__init__(initial, goals) 
+  def __init__(self, initial:Node, goal:Node, min:int, max:int):
+      super().__init__(initial, goal) 
       self.min = min
       self.max = max
   
@@ -86,4 +86,10 @@ class Jarra(Problem):
       newState = (state[0] + state[1], 0) if add >= state[1] else (state[0] + add, state[1] - add ) 
       return Node(newState, node, 'Vaciar jarra de {0}L en jarra de {1}L'.format(self.min, self.max))
     return None 
+
+  def hamming_distance(self, state1, state2):
+    return sum(1 for s1, s2 in zip(state1, state2) if s1 != s2)
+  
+  def heuristic(self, node):
+    return self.hamming_distance(node.state, self.goal.state)
     

@@ -3,13 +3,14 @@ from Algoritmos.BreadthFirstSearch import BreadthFirstSearch
 from Algoritmos.DepthFirstSearch import DepthFirstSearch
 from Algoritmos.DepthFirstSearchLimited import DepthFirstSearchLimited
 from Algoritmos.DepthFirstSearchIterative import DepthFirstSearchIterative
+from Algoritmos.GreedySearch import GreedySearch
 from Jarra import Jarra
 
 def main():
     # Estado inicial
     inicial = Node((0, 0))
     # Posibles estados finales
-    final = [Node((8, 0))]
+    final = Node((8, 0))
 
     # Crear el problema, con el estado inicial y el final, y las capacidades de las jarras
     jarra = Jarra(inicial, final, 1, 10)
@@ -41,6 +42,13 @@ def main():
     dfsi = DepthFirstSearchIterative(jarra)
     solution_dfsi = dfsi.run(2)
     print(str(solution_dfsi) + '\n')
+    print('Nodos revisados: ' +  str(jarra.number))
+
+    print('\n\nGreedy: \n')
+    jarra.number = 0
+    greedy = GreedySearch(jarra)
+    solution_greedy = greedy.run()
+    print(str(solution_greedy) + '\n')
     print('Nodos revisados: ' +  str(jarra.number))
 
 if __name__ == "__main__":

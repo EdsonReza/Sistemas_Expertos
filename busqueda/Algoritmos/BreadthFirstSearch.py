@@ -14,7 +14,7 @@ class BreadthFirstSearch:
         while self.open:
             actual = self.open.pop(0)
             print( "Nodo: " + str(self.problem.number) + ", " + str(actual))
-            if (actual in self.problem.goal):
+            if (actual == self.problem.goal):
                 while actual:
                     action = actual.action
                     actual = actual.parent

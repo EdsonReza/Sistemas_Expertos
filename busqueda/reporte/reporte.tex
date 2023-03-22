@@ -11,11 +11,9 @@
 \usepackage{graphicx}
 \usepackage{cite}
 \usepackage[spanish]{babel}
-\usepackage{pgfplots}
-\DeclareUnicodeCharacter{2212}{−}
-\usepgfplotslibrary{groupplots,dateplot}
-\usetikzlibrary{patterns,shapes.arrows}
-\pgfplotsset{compat=newest}
+\usepackage{tikz}
+
+\usepackage{bookmark}
 
 \hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
 % updated with editorial comments 8/9/2021
@@ -23,7 +21,7 @@
 
 \title{Evaluación de algoritmos de búsqueda para la resolución del problema de las jarras}
 
-\author{\IEEEauthorblockN{E. E. Reza Garduño, W. Esquivel Diaz, G. Salgado Agreda}}
+\author{\IEEEauthorblockN{Edson Elias Reza Garduño}}
 
 \maketitle
 
@@ -32,7 +30,7 @@
 \end{abstract}
 
 \section{Introducción}
-Sean dos jarras de capacidad $x$ y $y$ respectivamente, y un líquido de capacidad infinita. Se desea obtener $z$ litros de líquido en una de las jarras. ¿Cómo se puede lograr esto?. 
+Sean dos jarras de capacidad $x$ y $y$ respectivamente, y un líquido de capacidad infinita. Se desea obtener $z$ litros de líquido en una de las jarras. ¿Cómo se puede lograr esto?.
 
 El enunciado anterior es la descripción del problema de las jarras, un problema clásico que se puede encontrar en libros de matemáticas, en la literatura de inteligencia artificial y en la web. El problema de las jarras es un problema de búsqueda en el que se busca una solución a un problema a partir de un estado inicial. En este caso, el estado inicial es el estado en el que se encuentran las jarras, y el estado final es el estado en el que se encuentran las jarras después de haber realizado las operaciones necesarias para obtener $z$ litros de líquido en una de las jarras.
 
@@ -40,14 +38,14 @@ Para lograr alcanzar $z$ se consideran algunas restricciones:
 \begin{itemize}
   \item No se puede medir el líquido que se encuentra en las jarras, solo se puede saber si la jarra está vacía o llena, asi como la cantidad restante de alguna operación.
   \item Solo se pueden realizar las siguientes operaciones:
-  \begin{itemize}
-    \item Llenar la jarra de $x$ litros.
-    \item Llenar la jarra de $y$ litros.
-    \item Vaciar la jarra de $x$ litros.
-    \item Vaciar la jarra de $y$ litros.
-    \item Llenar la jarra de $x$ litros desde la jarra de $y$ litros.
-    \item Llenar la jarra de $y$ litros desde la jarra de $x$ litros.
-  \end{itemize}
+        \begin{itemize}
+          \item Llenar la jarra de $x$ litros.
+          \item Llenar la jarra de $y$ litros.
+          \item Vaciar la jarra de $x$ litros.
+          \item Vaciar la jarra de $y$ litros.
+          \item Llenar la jarra de $x$ litros desde la jarra de $y$ litros.
+          \item Llenar la jarra de $y$ litros desde la jarra de $x$ litros.
+        \end{itemize}
 \end{itemize}
 
 Viendo el problema, se puede obtener la solución rápida y fácilmente, sin embargo, para el caso de que se desee obtener la solución de manera automática, la solución para la computadora no es tan evidente.
@@ -61,10 +59,10 @@ Considerado solo dos jarras, la complejidad de este problema se puede aproximar 
   \includegraphics[width=0.45\textwidth]{figures/estados.png}
   \centering
   \caption{Cantidad de estados}
-  \label{fig:estados}  
+  \label{fig:estados}
 \end{figure}
 
-Es importante recordar que no todos los posibles estados son alacanzables, por lo que la cantidad de estados alcanzables es menor a la cantidad de estados totales.
+En la figura \ref{fig:estados} se puede observar la cantidad de estados posibles y como aumentan en función de las capacidades de las jarras. Es importante recordar que no todos los posibles estados son alacanzables, por lo que la cantidad de estados alcanzables es menor a la cantidad de estados totales.
 
 En este trabajo, usaremos algunos algorimos de búsqueda para resolver el problema de las jarras, comparando los resultados obtenidos entre si, a fin de determinar cuales son los algoritmos más eficientes para resolver este problema.
 \section{Trabajos relacionados}
@@ -76,52 +74,91 @@ Para lograr eso ultimo, existirá una lista de estados visitados, y cada vez que
 Para cada nodo se podrán desarrollar hasta 6 hijos, uno para cada operación, a consideración de que la operación sea posible de realizar. Por ejemplo, si la jarra de $x$ litros está llena, no se podrá realizar la operación de llenar la jarra de $x$ litros, ya que la jarra ya está llena. Por otro lado, si la jarra de $y$ litros está vacía, no se podrá realizar la operación de vaciar la jarra de $y$ litros, ya que la jarra ya está vacía. Para estos casos, se ignorará la operación, y se desarrollará el siguiente hijo.
 Y siempre teniendo en consideración que el estado final deseado puede no ser alcanzable.
 
+\begin{figure}[h]
+  \centering
+  \scalebox{0.6}{
+    \begin{tikzpicture}[level distance=2cm,
+        level 1/.style={sibling distance=6cm},
+        level 2/.style={sibling distance=3cm}]
+      \node[circle,draw] (root) {$(0,0)$}
+      child {
+          node[circle,draw] {$(4,0)$}
+          child {
+              node[circle,draw] {$(1,3)$}
+              child {node[circle,draw] {$(1,0)$}}
+              child {node[circle,draw] {$(4,3)$}}
+            }
+          child {
+              node[circle,draw] {$(0,4)$}
+              child {node[circle,draw] {$(4,4)$}}
+              child {node[circle,draw] {$(1,3)$}}
+            }
+        }
+      child {
+          node[circle,draw] {$(0,3)$}
+          child {
+              node[circle,draw] {$(3,0)$}
+              child {node[circle,draw] {$(3,3)$}}
+              child {node[circle,draw] {$(0,0)$}}
+            }
+          child {
+              node[circle,draw] {$(0,3)$}
+              child {node[circle,draw] {$(3,3)$}}
+              child {node[circle,draw] {$(0,0)$}}
+            }
+        };
 
+    \end{tikzpicture}
+  }
+  \caption{Árbol de los estados de las jarras}
+  \label{fig:arbol}
+\end{figure}
 
-\section{Experimentos}
+Como se puede observar en la figura \ref{fig:arbol}, el árbol de búsqueda puede generar recursiones, y algunos estados se pueden alcanzar por más de una manera, de ahí la importancia de tener una estructura de datos que permita almacenar los estados visitados, para evitar desarrollos infinitos.
+
+Con el problema ya planteado, se puede proceder a implementar los algoritmos de búsqueda, y comparar los resultados obtenidos entre si. Para este trabajo, se implementarán los siguientes algoritmos de búsqueda:
+
+\subsection{Búsqueda en amplitud}
+El algoritmo de búsqueda en amplitud es un algoritmo de búsqueda no informada, que consiste en desarrollar los nodos de un árbol de búsqueda en amplitud, es decir, primero se desarrollan los nodos del nivel 1, después los del nivel 2, y así sucesivamente. Este algoritmo es muy sencillo de implementar, pero no es muy eficiente, ya que puede tardar mucho tiempo en encontrar la solución, y puede requerir mucha memoria para almacenar los nodos desarrollados.
+Pero a pesar de su alto costo, nos da la garantía de encontrar la solución más corta (si es que existe).
+
+\subsection{Búsqueda en profundidad}
+El algoritmo de búsqueda en profundidad es un algoritmo de búsqueda no informada, que consiste en desarrollar los nodos de un árbol de búsqueda en profundidad, es decir, primero se desarrollan los nodos del nivel más profundo, después los del nivel anterior, y así sucesivamente. Al igual que el anterior este tambien es muy sencillo de implementar, pero no siempre va a encontrar la solución más óptima, pues si encuentra una solución valida, se detiene, y no sigue desarrollando el árbol, evitando que pueda descubrir una mejor solución en otra rama del árbol.
+
+\subsection{Búsqueda en profundidad limitada}
+El algoritmo de búsqueda en profundidad limitada es una variante del algoritmo de búsqueda en profundidad, que consiste en desarrollar los nodos de un árbol de búsqueda en profundidad, pero limitando la profundidad a la que se desarrolla el árbol. Este algoritmo es muy útil cuando se desconoce la profundidad del árbol, y se desea encontrar una solución en un tiempo razonable. Con la limitación se puede mejorar además del tiempo de ejecución, el espacio de memoria requerido y se puede llegar a mejorar la solución encontrada. Como desventaja, al limitar la profundidad, se puede llegar a no encontrar alguna solución, pues esta puede estar más profundo en el árbol.
+
+\subsection{Búsqueda en profundidad iterativa}
+El algoritmo de búsqueda en profundidad iterativa es una variante del algoritmo de búsqueda en profundidad, que consiste en desarrollar los nodos de un árbol de búsqueda en profundidad, pero limitando la profundidad a la que se desarrolla el árbol, y aumentando la profundidad en cada iteración en caso de que no se haya podido encontrar una solución. El algoritmo cumple en menor medida con las mismas ventajas que el algoritmo de búsqueda en profundidad limitada, pero al aumentar la profundidad en cada iteración, nos aseguramos de encontrar una solución, aunque no sea la más óptima, y si es que existe. Como desventaja mayor esta el hecho de que cada incremento implica volver a desarrollar el árbol, por lo que el tiempo de ejecución aumenta considerablemente si la profundidad se empieza a incrementar mucho.
+
+\subsection{Búsqueda voraz}
+O greedy, es un algoritmo de busqueda informada, que consiste en desarrollar los nodos de un árbol de búsqueda, pero en cada paso se elige el nodo que tenga el menor costo basado en una función heurística. Su mayor limitante será la calidad de la función heurística, pues si esta no es buena, el algoritmo no podrá encontrar una solución óptima.
+
+\subsection{Búsqueda A*}
+El algoritmo A* es un algoritmo de búsqueda informada, que consiste en desarrollar los nodos de un árbol de búsqueda, pero en cada paso se elige el nodo que tenga el menor costo basado en una función heurística, y el costo acumulado hasta ese nodo. Al igual que la búsqueda voraz, su mayor limitante será la calidad de la función heurística, junto con el costo acumulado. Con el uso de estos dos factores, si bien no se garantiza encontrar la solución más óptima, se puede asegurar que la solución encontrada será ``buena'' en terminos de costo.
+
+\section{Experimentación}
+Se implementó un programa en Python que permite utilizar dos jarras y una lista de estados objetivo.
+Tanto la capacidad de las jarras como la lista de estados objetivo se pueden modificar en el archivo \textit{main.py}, en la función \textit{main}.
+
+Con los estados recibidos, se ejecutan todos los algoritmos de búsqueda, y se imprime en pantalla la cantidad de nodos desarrollados por cada uno hasta alcanzar una solución, o hasta que se agote el espacio de búsqueda. Tambien muestra el camino que se debe seguir para llegar a la solución si es que se encontró una.
+
+En esta ocasión el parametro que se usó para comparar los algoritmos fue la cantidad de nodos desarrollados, ya que es un parámetro que se puede medir fácilmente, y que nos da una idea de la eficiencia de cada algoritmo al momento de encontrar una solución.
 
 \section{Conclusion}
-The conclusion goes here.
+De todos los algoritmos de búsqueda implementados, el que peor desempeño tuvo fue la búsqueda en profundidad iterativa, pues si no se encontraba la solución en la primera iteración, la cantidad de nodos desarrollados aumentaba considerablemente en cada iteración. La búsqueda en amplitud sin duda siempre daba la respuesta más eficiente, como se esperaba, pero si la solución estaba en una parte profunda del árbol, podia desarrollar demasiados nodos. Si de antemano se conoce por donde se encuentra la solución la búsqueda en profundidad limitada es la mejor opción, pues se puede limitar la profundidad y lograr conseguir una solución lo suficientemente buena en un tiempo razonable. La búsqueda voraz y A* son algoritmos muy similares, pues ambos utilizan una función heurística para decidir cual es el siguiente nodo a desarrollar, pero A* utiliza el costo acumulado hasta ese nodo, lo que le da una ventaja sobre la búsqueda voraz, pues si bien no se garantiza encontrar la solución más óptima, se puede asegurar que la solución encontrada será ``buena'' con mayor seguridad respecto al resto de algorimos.
 
 \section{Trabajos futuros}
-
-\section{Participación de los autores}
-\begin{itemize}
-  \item E. E. Reza Garduño: 0\%
-  \item W. Esquivel Diaz: 0\%
-  \item G. Salgado Agreda: 0\%
-\end{itemize}
+Es posible generalizar el problema para que se pueda utilizar un número arbitrario de jarras, por lo que se puede implementar para conocer si los resultados vistos en este trabajo se mantienen, o por el contrario, cambian conforme se aumenta el número de jarras, y si es así, observar como cambian los resultados de los algoritmos de búsqueda.
+Tambien se puede explorar el uso de los algoritmos vistos en problemas similares, donde se tengan recursos de almacenamiento limitado.
+De manera secundaria, se pueden explorar medios para mejorar el rendimiento de los algoritmos sin cambiar su lógica de funcionamiento, como por ejemplo, implementarlos en lenguajes de programación compilados, o utilizando paralelismo para recorrer el árbol de búsqueda más rápido.
 
 \begin{thebibliography}{1}
   \bibliographystyle{IEEEtran}
 
-  \bibitem{ref1}
-  {\it{Mathematics Into Type}}. American Mathematical Society. [Online]. Available: https://www.ams.org/arc/styleguide/mit-2.pdf
+  \bibitem{ref1}M. S. Gupta and S. Bairagi, {\it{“Evaluating Search Algorithms for Solving n-Puzzle”,}} [Online]. Available: http://sumitg.com/assets/n-puzzle.pdf
 
-  \bibitem{ref2}
-  T. W. Chaundy, P. R. Barrett and C. Batey, {\it{The Printing of Mathematics}}. London, U.K., Oxford Univ. Press, 1954.
-
-  \bibitem{ref3}
-  F. Mittelbach and M. Goossens, {\it{The \LaTeX Companion}}, 2nd ed. Boston, MA, USA: Pearson, 2004.
-
-  \bibitem{ref4}
-  G. Gr\"atzer, {\it{More Math Into LaTeX}}, New York, NY, USA: Springer, 2007.
-
-  \bibitem{ref5}M. Letourneau and J. W. Sharp, {\it{AMS-StyleGuide-online.pdf,}} American Mathematical Society, Providence, RI, USA, [Online]. Available: http://www.ams.org/arc/styleguide/index.html
-
-  \bibitem{ref6}
-  H. Sira-Ramirez, ``On the sliding mode control of nonlinear systems,'' \textit{Syst. Control Lett.}, vol. 19, pp. 303--312, 1992.
-
-  \bibitem{ref7}
-  A. Levant, ``Exact differentiation of signals with unbounded higher derivatives,''  in \textit{Proc. 45th IEEE Conf. Decis.
-    Control}, San Diego, CA, USA, 2006, pp. 5585--5590. DOI: 10.1109/CDC.2006.377165.
-
-  \bibitem{ref8}
-  M. Fliess, C. Join, and H. Sira-Ramirez, ``Non-linear estimation is easy,'' \textit{Int. J. Model., Ident. Control}, vol. 4, no. 1, pp. 12--27, 2008.
-
-  \bibitem{ref9}
-  R. Ortega, A. Astolfi, G. Bastin, and H. Rodriguez, ``Stabilization of food-chain systems using a port-controlled Hamiltonian description,'' in \textit{Proc. Amer. Control Conf.}, Chicago, IL, USA,
-  2000, pp. 2245--2249.
+  \bibitem{ref2}H. Franco, {\it{“Búsqueda no informada Métodos en anchura y de costo uniforme”,}} [Online]. Available: https://hpclab.ucentral.edu.co/wp-content/uploads/2021/09/Session\_8\_UninformedSearch.pdf
 
 \end{thebibliography}
 

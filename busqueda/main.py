@@ -14,27 +14,27 @@ def main():
     # Crear el problema, con el estado inicial y el final, y las capacidades de las jarras
     jarra = Jarra(inicial, final, 1, 10)
 
-    # bfs = BreadthFirstSearch(jarra)
-    # solution_bfs = bfs.run()
-    # print(str(solution_bfs) + '\n')
-    # print('Nodos revisados: ' +  str(jarra.number))
+    bfs = BreadthFirstSearch(jarra)
+    solution_bfs = bfs.run()
+    print(str(solution_bfs) + '\n')
+    print('Nodos revisados: ' +  str(jarra.number))
 
-    # # La jarra cuenta los nodos, al reutilizar el mismo objeto se debe reiniciar
-    # jarra.number = 0
-    # dfs = DepthFirstSearch(jarra)
-    # solution_dfs = dfs.run()
-    # print(str(solution_dfs) + '\n')
-    # print('Nodos revisados: ' +  str(jarra.number))
+    # La jarra cuenta los nodos, al reutilizar el mismo objeto se debe reiniciar
+    jarra.number = 0
+    dfs = DepthFirstSearch(jarra)
+    solution_dfs = dfs.run()
+    print(str(solution_dfs) + '\n')
+    print('Nodos revisados: ' +  str(jarra.number))
 
-    # jarra.number = 0
-    # dfsl = DepthFirstSearchLimited(jarra)
-    # solution_dfsl = dfsl.run(5)
-    # print(str(solution_dfsl) + '\n')
-    # print('Nodos revisados: ' +  str(jarra.number))
+    jarra.number = 0
+    dfsl = DepthFirstSearchLimited(jarra)
+    solution_dfsl = dfsl.run(5)
+    print(str(solution_dfsl) + '\n')
+    print('Nodos revisados: ' +  str(jarra.number))
 
     jarra.number = 0
     dfsi = DepthFirstSearchIterative(jarra)
-    solution_dfsi = dfsi.run(3)
+    solution_dfsi = dfsi.run(2)
     print(str(solution_dfsi) + '\n')
     print('Nodos revisados: ' +  str(jarra.number))
 
